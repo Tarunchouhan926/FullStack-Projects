@@ -6,14 +6,10 @@ import re
 import mysql.connector
 import os
 from dotenv import load_dotenv
-
-# ✅ Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
-
-# ✅ Connect to MySQL database using environment variables
 conn = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
     user=os.getenv("DB_USER"),
@@ -21,9 +17,6 @@ conn = mysql.connector.connect(
     database=os.getenv("DB_NAME")
 )
 cursor = conn.cursor()
-
-
-# ✅ Define your skills list (same as before)
 SKILLS_LIST = set([
     "Python", "Java", "C++", "JavaScript", "TypeScript", "C#", "Swift", "Go", "Rust",
     "Ruby", "PHP", "Kotlin", "Dart", "Scala", "Perl", "R", "Objective-C", "Haskell", "Lua", "Shell Scripting",
@@ -46,7 +39,7 @@ SKILLS_LIST = set([
     "Selenium", "Cypress", "Playwright", "Jest", "Mocha", "Chai", "PyTest", "JUnit", "TestNG", "Cucumber",
     "Git", "GitHub", "GitLab", "Bitbucket", "Linux", "Bash", "PowerShell", "WebAssembly (WASM)",
     "Figma", "Adobe XD", "Postman", "Swagger", "Insomnia", "Vim", "Emacs", "VS Code", "JetBrains IntelliJ"
-])  # keep your long skills list here
+]) 
 
 def extract_text(file):
     if file.filename.endswith('.pdf'):
@@ -113,13 +106,11 @@ def index():
 
             matched_skills = sorted(set(resume_skills).intersection(jd_skills))
             missing_skills = sorted(set(jd_skills) - set(resume_skills))
-
-            # ✅ ATS score calculation
             total_skills = len(jd_skills)
+
             if total_skills > 0:
                 ats_score = round((len(matched_skills) / total_skills) * 100, 2)
 
-            # ✅ Insert into MySQL
             sql = "INSERT INTO candidates (name, email, phone, ats_score) VALUES (%s, %s, %s, %s)"
             values = (name, email, phone, ats_score)
             cursor.execute(sql, values)
