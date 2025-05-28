@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Resume Analyzer</h2>
+    <form method="POST" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="resume" required>
+        <textarea name="job_description" placeholder="Paste Job Description here..." rows="6" required></textarea>
+        <button type="submit">Analyze Resume</button>
+    </form>
+
+    {% if name or email or phone %}
+    <div class="result candidate-details">
+        <h3>Candidate Details</h3>
+        <div class="detail-box">
+            {% if name %}<div><span>Name:</span> {{ name }}</div>{% endif %}
+            {% if email %}<div><span>Email:</span> {{ email }}</div>{% endif %}
+            {% if phone %}<div><span>Phone:</span> {{ phone }}</div>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if matched_skills or missing_skills %}
+    <div class="result two-column-skills">
+        <div class="skills-column">
+            <h3>Matched Skills</h3>
+            <ul class="skills-list matched">
+                {% for skill in matched_skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="skills-column">
+            <h3>Missing Skills</h3>
+            <ul class="skills-list missing">
+                {% for skill in missing_skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="result ats-score">
+        <h3>ATS Score</h3>
+        <div class="score-circle" data-score="{{ ats_score }}">
+            <div class="score-fill"></div>
+            <div class="score-text">{{ ats_score }}%</div>
+        </div>
+        
+    </div>
+    {% endif %}
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
