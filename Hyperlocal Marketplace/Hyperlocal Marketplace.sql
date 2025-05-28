@@ -1,8 +1,6 @@
 CREATE DATABASE marketplace_db;
 USE marketplace_db;
 
-
--- For Shopkeepers
 CREATE TABLE shopkeepers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255),
@@ -14,7 +12,6 @@ CREATE TABLE shopkeepers (
     longitude DOUBLE
 );
 
--- For Buyers
 CREATE TABLE buyers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255),
@@ -24,7 +21,7 @@ CREATE TABLE buyers (
     latitude DOUBLE,
     longitude DOUBLE
 );
--- For Products
+
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     shopkeeper_id INT NOT NULL,
