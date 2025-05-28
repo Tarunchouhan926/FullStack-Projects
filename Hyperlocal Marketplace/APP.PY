@@ -12,7 +12,6 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Mail configuration
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -20,7 +19,6 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
-# DB Connection
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
@@ -34,7 +32,6 @@ def get_db_connection():
         print(f"Error: {err}")
         return None
 
-# Haversine Distance
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371
     phi1 = math.radians(lat1)
@@ -45,17 +42,14 @@ def haversine(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
-# Home/Login
 @app.route('/')
 def login():
     return render_template('login.html')
 
-# Email OTP Page
 @app.route('/verify_email', methods=['GET'])
 def verify_email():
     return render_template('verify_email.html', show_otp=False)
 
-# Send OTP
 @app.route('/send_otp', methods=['POST'])
 def send_otp():
     email = request.form['email']
@@ -71,7 +65,6 @@ def send_otp():
     flash("OTP has been sent to your email.", "info")
     return render_template('verify_email.html', show_otp=True)
 
-# Verify OTP
 @app.route('/verify_otp', methods=['POST'])
 def verify_otp():
     entered_otp = request.form.get('otp')
@@ -79,9 +72,9 @@ def verify_otp():
 
     if entered_otp == actual_otp:
         flash("OTP verified successfully!", "success")
-        session.pop('otp', None)           # Optional: clear OTP from session
-        session.pop('otp_sent', None)      # Optional: hide OTP form on reload
-        return redirect(url_for('signup'))  # ⬅️ Redirect to signup route
+        session.pop('otp', None)          
+        session.pop('otp_sent', None)     
+        return redirect(url_for('signup'))  
     else:
         flash("Invalid OTP. Please try again.", "error")
         return redirect(url_for('verify_email'))
@@ -90,12 +83,11 @@ def verify_otp():
 def dashboard():
     return "Welcome, OTP verified!"
 
-# Signup Page
+
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
 
-# Register
 @app.route('/register', methods=['POST'])
 def register():
     try:
@@ -106,7 +98,6 @@ def register():
         latitude = request.form['latitude']
         longitude = request.form['longitude']
 
-        # Hash the password before storing it
         hashed_password = generate_password_hash(password)
 
         conn = get_db_connection()
@@ -146,13 +137,12 @@ def login_post():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    # Check shopkeepers
+
     cursor.execute("SELECT * FROM shopkeepers WHERE email=%s", (email,))
     shopkeeper = cursor.fetchone()
     if shopkeeper and check_password_hash(shopkeeper['password'], password):
         return redirect(url_for('shop_dashboard', shop_id=shopkeeper['id']))
 
-    # Check buyers
     cursor.execute("SELECT * FROM buyers WHERE email=%s", (email,))
     buyer = cursor.fetchone()
     if buyer and check_password_hash(buyer['password'], password):
