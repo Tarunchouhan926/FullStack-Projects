@@ -96,8 +96,6 @@ h2 {
     font-size: 14px;
     box-shadow: 0 2px 5px rgba(79, 70, 229, 0.15);
 }
-
-/* ✅ Responsive tweaks */
 @media screen and (max-width: 600px) {
     .container {
         padding: 20px;
