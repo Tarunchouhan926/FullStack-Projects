@@ -128,7 +128,6 @@ def register():
 
     return redirect(url_for('login'))
 
-# Login Route
 @app.route('/login', methods=['POST'])
 def login_post():
     email = request.form['email']
@@ -154,7 +153,6 @@ def login_post():
     flash("Invalid email or password.")
     return redirect(url_for('login'))
 
-# Shopkeeper Dashboard
 @app.route('/shop/<int:shop_id>', methods=['GET', 'POST'])
 def shop_dashboard(shop_id):
     conn = get_db_connection()
@@ -186,7 +184,6 @@ def delete_product(product_id):
     conn.close()
     return redirect(url_for('shop_dashboard', shop_id=session.get('shop_id')))
 
-# Buyer Dashboard
 @app.route('/buyer_dashboard', methods=['GET', 'POST'])
 def buyer_dashboard():
     user_lat = session.get('latitude', 0.0)
@@ -224,7 +221,6 @@ def buyer_dashboard():
     conn.close()
     return render_template('buyer_dashboard.html', products=products_within_10km, search_query=search_query)
 
-# Upload Product
 @app.route('/upload_product/<int:shop_id>', methods=['POST'])
 def upload_product(shop_id):
     name = request.form['product_name']
