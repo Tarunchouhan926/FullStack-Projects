@@ -1,0 +1,19 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome | Hyperlocal Marketplace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to the Hyperlocal Marketplace</h1>
+    <p>This is a platform to connect local sellers with nearby customers.</p>
+
+    <div class="links">
+        <a href="{{ url_for('login') }}">Login</a> |
+        <a href="{{ url_for('register') }}">Sign Up</a> |
+        <a href="{{ url_for('product_listing') }}">Browse Products</a>
+    </div>
+</body>
+</html>

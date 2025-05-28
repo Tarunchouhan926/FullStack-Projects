@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Hyperlocal Marketplace</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(45deg, #3498db, #2ecc71);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .heading {
+      font-size: 60px;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+
+    h2 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    h2::before {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50%;
+      height: 4px;
+      background-color: #3498db;
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    h2:hover::before {
+      width: 100%;
+    }
+
+    h2:hover {
+      color: #3498db;
+      transform: translateY(-5px);
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    label {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 10px;
+      display: block;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      font-size: 18px;
+      border: 1px solid #ddd;
+      outline: none;
+      transition: 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #3498db;
+      background-color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px;
+        max-width: 400px;
+      }
+
+      .heading {
+        font-size: 48px;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      input, button {
+        font-size: 16px;
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        max-width: 350px;
+      }
+
+      .heading {
+        font-size: 40px;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      input, button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="heading">Hyperlocal Marketplace</h1>
+
+  <div class="container">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" required />
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{{ url_for('verify_email') }}">Sign up here</a></p>
+</p>
+  </div>
+</body>
+</html>

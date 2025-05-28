@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Products</title>
+</head>
+<body>
+    <h1>Search for Products</h1>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ url_for('search') }}">
+        <input type="text" name="q" placeholder="Search for products" value="{{ query }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display Results -->
+    <h2>Search Results</h2>
+    {% if query %}
+        <p>Results for: <strong>{{ query }}</strong></p>
+        <ul>
+            {% for product, distance in products %}
+                <li>
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>Price: ₹{{ product.price }}</p>
+                    <img src="{{ url_for('static', filename='uploads/' + product.photo) }}" alt="{{ product.name }}" width="100">
+                    {% if distance %}
+                        <p>Distance: {{ distance }} km</p>
+                    {% endif %}
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}">View Details</a>
+                </li>
+            {% else %}
+                <p>No products found matching your search.</p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No search query yet. Enter a term above to begin searching.</p>
+    {% endif %}
+</body>
+</html>

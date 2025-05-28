@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopkeeper Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #f0f0f0, #d1e0e0);
+      color: #333;
+      margin: 0;
+      text-align: center;
+      padding-top: 30px;
+      position: relative; /* 🔥 this makes absolute positioning work properly */
+    }
+
+    .project-name {
+      font-size: 40px;
+      font-weight: 700;
+      color: #2c3e50;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #333;
+      margin: 15px 0;
+    }
+
+    .map-link {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .map-link:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    label {
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: block;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .product-listing {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+      width: 80%;
+      max-width: 1000px;
+      margin: 20px auto;
+    }
+
+    .product-listing li {
+      background-color: #fff;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 300px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 250px;
+    }
+
+    .product-listing li:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-listing img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-info {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 10px 0;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* ✅ capsule buttons */
+    .top-right-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .top-right-buttons .btn {
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      border: none;
+      outline: none;
+      color: white;
+      display: inline-block;
+    }
+
+    .top-right-buttons .home {
+      background-color: red;
+      border-right: 1px solid white;
+      border-top-left-radius: 999px;
+      border-bottom-left-radius: 999px;
+    }
+
+    .top-right-buttons .logout {
+      background-color: blue;
+      border-top-right-radius: 999px;
+      border-bottom-right-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .top-right-buttons .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="top-right-buttons">
+        <a href="{{ url_for('buyer_dashboard') }}" class="btn home">HOME</a>
+        <a href="{{ url_for('login') }}" class="btn logout">LOGOUT</a>
+    </div>
+    
+  <!-- Project Name Heading -->
+  <div class="project-name">Hyperlocal Marketplace</div>
+
+  <!-- Upload Product Form -->
+  <h2>Upload New Product</h2>
+  <form action="{{ url_for('upload_product', shop_id=shopkeeper.id) }}" method="POST" enctype="multipart/form-data">
+    <label for="product_name">Product Name:</label><br>
+    <input type="text" name="product_name" required><br><br>
+
+    <label for="price">Price (₹):</label><br>
+    <input type="number" name="price" required><br><br>
+
+    <label for="product_image">Product Image:</label><br>
+    <input type="file" name="product_image" accept="image/*" required><br><br>
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <!-- Product Listing -->
+  <h2>Your Products</h2>
+  <div class="product-listing">
+    {% if products %}
+    <ul style="display: flex; flex-wrap: wrap; justify-content: center;">
+      {% for product in products %}
+      <li>
+        <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" alt="Product Image">
+        <div class="product-info">
+          <strong>{{ product.name }}</strong><br>
+          ₹{{ product.price }}
+        </div>
+        <form action="{{ url_for('shop_dashboard', shop_id=shopkeeper.id) }}" method="POST">
+          <button type="submit" name="delete_product" value="{{ product.id }}" class="delete-btn">Delete Product</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have no products uploaded yet.</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>

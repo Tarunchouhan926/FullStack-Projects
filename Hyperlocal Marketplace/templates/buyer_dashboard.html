@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyperlocal Marketplace</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      padding: 30px;
+      text-align: center;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .logout-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 9999;
+      text-decoration: none;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    .project-title {
+      font-size: 48px;
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .page-subtitle {
+      font-size: 24px;
+      color: #34495e;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    form {
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      padding: 12px 20px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+        justify-items: center;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card strong {
+      font-size: 22px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+    }
+
+    .product-card p {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .product-card img {
+      margin-top: 15px;
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+
+    .map-link {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .map-link:hover {
+      text-decoration: underline;
+    }
+
+    .no-products {
+      font-size: 24px;
+      margin-top: 50px;
+      color: #e74c3c;
+    }
+
+    /* Compact Grid for search results */
+    .compact-grid {
+      gap: 15px; /* Reduced gap */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logout Button -->
+  <a href="{{ url_for('login') }}" class="logout-btn">Logout</a>
+
+  <!-- Main Project Title -->
+  <div class="project-title">Hyperlocal Marketplace</div>
+
+  <!-- Page Subtitle -->
+  <div class="page-subtitle">Find Products Near You Within 10 KM</div>
+
+  <!-- Search Form -->
+  <form method="POST">
+    <input type="text" name="search" placeholder="Search products..." value="{{ search_query }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- Products Section -->
+  {% if products %}
+    <div class="product-grid" id="product-grid">
+      {% for product in products %}
+        <div class="product-card">
+          <strong>{{ product.name }}</strong>
+          <p>₹{{ product.price }}</p>
+
+          {% if product.shop_name %}
+            <p>Shop: {{ product.shop_name }}</p>
+          {% endif %}
+
+          <p>Distance: {{ product.distance }} km</p>
+
+          {% if product.latitude and product.longitude %}
+            <p>📍 <a class="map-link" href="https://www.google.com/maps?q={{ product.latitude }},{{ product.longitude }}" target="_blank">
+              Location
+            </a></p>
+          {% endif %}
+
+          {% if product.image_url %}
+            <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" alt="Product Image">
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-products">No products found within 10 KM for "{{ search_query }}"</p>
+  {% endif %}
+
+  <script>
+    // Ensure the product grid element exists
+    const productGrid = document.getElementById('product-grid');
+    const searchInput = document.querySelector('input[name="search"]');
+
+    // Function to check if search query exists
+    function updateGridGap() {
+      if (searchInput.value.trim() !== '') {
+        productGrid.classList.add('compact-grid'); // Apply compact grid style
+      } else {
+        productGrid.classList.remove('compact-grid'); // Remove compact grid style
+      }
+    }
+
+    // When the page loads, apply grid gap changes if search query exists
+    window.onload = function() {
+      updateGridGap();
+    }
+
+    // On search input, adjust grid gap dynamically
+    searchInput.addEventListener('input', updateGridGap);
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing - Hyperlocal Marketplace</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="product-listing-container">
+        <h2>Search Products</h2>
+        <form method="GET" action="/search">
+            <input type="text" name="search_query" placeholder="Search for products" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <h3>Results</h3>
+        <div class="product-cards">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.photo_url }}" alt="Product Photo">
+                <h4>{{ product.name }}</h4>
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Distance: {{ product.distance }} km</p>
+                <a href="/product/{{ product.id }}">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
