@@ -150,31 +150,19 @@
       margin-top: 50px;
       color: #e74c3c;
     }
-
-    /* Compact Grid for search results */
     .compact-grid {
       gap: 15px; /* Reduced gap */
     }
   </style>
 </head>
 <body>
-
-  <!-- Logout Button -->
   <a href="{{ url_for('login') }}" class="logout-btn">Logout</a>
-
-  <!-- Main Project Title -->
   <div class="project-title">Hyperlocal Marketplace</div>
-
-  <!-- Page Subtitle -->
   <div class="page-subtitle">Find Products Near You Within 10 KM</div>
-
-  <!-- Search Form -->
   <form method="POST">
     <input type="text" name="search" placeholder="Search products..." value="{{ search_query }}">
     <button type="submit">Search</button>
   </form>
-
-  <!-- Products Section -->
   {% if products %}
     <div class="product-grid" id="product-grid">
       {% for product in products %}
@@ -205,11 +193,8 @@
   {% endif %}
 
   <script>
-    // Ensure the product grid element exists
     const productGrid = document.getElementById('product-grid');
     const searchInput = document.querySelector('input[name="search"]');
-
-    // Function to check if search query exists
     function updateGridGap() {
       if (searchInput.value.trim() !== '') {
         productGrid.classList.add('compact-grid'); // Apply compact grid style
@@ -217,13 +202,9 @@
         productGrid.classList.remove('compact-grid'); // Remove compact grid style
       }
     }
-
-    // When the page loads, apply grid gap changes if search query exists
     window.onload = function() {
       updateGridGap();
     }
-
-    // On search input, adjust grid gap dynamically
     searchInput.addEventListener('input', updateGridGap);
   </script>
 </body>
