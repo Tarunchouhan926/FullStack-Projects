@@ -18,7 +18,7 @@
       margin: 0;
       text-align: center;
       padding-top: 30px;
-      position: relative; /* 🔥 this makes absolute positioning work properly */
+      position: relative; 
     }
 
     .project-name {
@@ -161,7 +161,6 @@
       background-color: #c0392b;
     }
 
-    /* ✅ capsule buttons */
     .top-right-buttons {
       position: absolute;
       top: 20px;
@@ -209,11 +208,7 @@
         <a href="{{ url_for('buyer_dashboard') }}" class="btn home">HOME</a>
         <a href="{{ url_for('login') }}" class="btn logout">LOGOUT</a>
     </div>
-    
-  <!-- Project Name Heading -->
   <div class="project-name">Hyperlocal Marketplace</div>
-
-  <!-- Upload Product Form -->
   <h2>Upload New Product</h2>
   <form action="{{ url_for('upload_product', shop_id=shopkeeper.id) }}" method="POST" enctype="multipart/form-data">
     <label for="product_name">Product Name:</label><br>
@@ -227,8 +222,6 @@
 
     <button type="submit">Upload</button>
   </form>
-
-  <!-- Product Listing -->
   <h2>Your Products</h2>
   <div class="product-listing">
     {% if products %}
