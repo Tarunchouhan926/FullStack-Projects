@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Management System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 90%;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav a {
+            display: inline-block;
+            padding: 15px 25px;
+            background-color: #0077cc;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .nav a:hover {
+            background-color: #005fa3;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 119, 204, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .nav a {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>College Management System</h1>
+        <div class="nav">
+            <a href="/create_college">Create College</a>
+            <a href="/add_student">Add Student</a>
+            <a href="/add_teacher">Add Teacher</a>
+            <a href="/view_students">View Students</a>
+            <a href="/view_teachers">View Teachers</a>
+        </div>
+    </div>
+</body>
+</html>
