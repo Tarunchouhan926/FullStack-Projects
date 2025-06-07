@@ -25,8 +25,5 @@ CREATE TABLE teachers (
     department VARCHAR(50),
     college_name VARCHAR(100)
 );
-ALTER TABLE teachers ADD subject VARCHAR(100);
-SELECT DISTINCT college_name FROM students;
-
 
 select * from students
