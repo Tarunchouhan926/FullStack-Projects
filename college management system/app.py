@@ -45,8 +45,6 @@ def send_otp(email):
     server.quit()
 
     return otp
-
-# --- Send confirmation email after student registration ---
 def send_student_confirmation_email(roll, name, age, email, branch, college):
     subject = f'Student Registration Successful'
     body = (
@@ -70,8 +68,6 @@ def send_student_confirmation_email(roll, name, age, email, branch, college):
     server.login(MAIL_USERNAME, MAIL_PASSWORD)
     server.send_message(msg)
     server.quit()
-
-# --- Send confirmation email after teacher registration ---
 def send_teacher_confirmation_email(name, age, email, department, college):
     subject = f'Teacher Registration Successful'
     body = (
@@ -94,8 +90,6 @@ def send_teacher_confirmation_email(name, age, email, department, college):
     server.login(MAIL_USERNAME, MAIL_PASSWORD)
     server.send_message(msg)
     server.quit()
-
-# --- Routes ---
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -130,14 +124,10 @@ def verify_otp_student():
         if int(request.form['otp']) == session['otp']:
             data = session['student_data']
             college_name = data['college']
-
-            # check if college exists, if not add it
             cursor.execute("SELECT name FROM colleges WHERE name = %s", (college_name,))
             if not cursor.fetchone():
                 cursor.execute("INSERT INTO colleges (name) VALUES (%s)", (college_name,))
                 conn.commit()
-
-            # now insert student safely
             cursor.execute(
                 "INSERT INTO students (roll, name, age, email, branch, college_name) VALUES (%s, %s, %s, %s, %s, %s)",
                 (data['roll'], data['name'], data['age'], data['email'], data['branch'], college_name)
@@ -169,8 +159,6 @@ def view_students():
             (college,)
         )
         rows = cursor.fetchall()
-
-        # Print fetched rows in terminal
         print(f"Fetched rows: {rows}")
 
         students = [
